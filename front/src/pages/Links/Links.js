@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const LinksPage = () => {
+export default function() {
   return (
     <div>
       Links Page

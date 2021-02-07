@@ -1,12 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import { Provider } from 'mobx-react';
 import reportWebVitals from './reportWebVitals';
+import { App } from '~/pages';
+import '~/styles/index.css';
+import RootStore from  '~/stores/RootStore';
+
+require("es6-object-assign").polyfill(); // IE11
+
+const rootStore = new RootStore();
+const stores = {
+  rootStore,
+  authStore: rootStore.authStore,
+  userStore: rootStore.userStore,
+  docStore: rootStore.docStore,
+  bookStore: rootStore.bookStore,
+  uiStore: rootStore.uiStore,
+};
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider {...stores}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

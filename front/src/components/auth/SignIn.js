@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SignIn({ setSignIn, changeHandler, submitHandler, isLoading }) {
+function SignIn({ setSignUp, changeHandler, submitHandler, isLoading }) {
   const classes = useStyles();
 
   return (
@@ -96,7 +96,7 @@ function SignIn({ setSignIn, changeHandler, submitHandler, isLoading }) {
               <Link
                 href="#"
                 variant="body2"
-                onClick={e => { e.preventDefault(); setSignIn(false)}}
+                onClick={e => { e.preventDefault(); setSignUp()}}
               >
                 {"Нет аккаунта? Зарегистрироваться"}
               </Link>
@@ -109,7 +109,7 @@ function SignIn({ setSignIn, changeHandler, submitHandler, isLoading }) {
 }
 
 SignIn.propTypes = {
-  setSignIn: PropTypes.func.isRequired,
+  setSignUp: PropTypes.func.isRequired,
   changeHandler: PropTypes.func.isRequired,
   submitHandler: PropTypes.func.isRequired,
 };

@@ -19,7 +19,172 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-  monospace;
+header {
+  position: fixed; left:0; top:0; right:0; box-shadow: 0 0 5px rgba(0,0,0,0.4); z-index: 10000;
+}
+
+main {
+  padding-top: 108px; padding-bottom:50px;
+}
+
+.username {
+  margin-left:20px; margin-right:10px
+}
+
+.logout {
+  color: #1596c8; margin-left: 15px; cursor: pointer; font-weight: bold;
+}
+
+.logout:hover {
+  color: #2f6f9f;
+}
+
+.navbar-nav .add-timetable {
+  display: inline-block; vertical-align: middle; width:25px; height:25px; cursor: pointer;
+  margin: 3px 5px auto auto;
+  background: url("../assets/icons/icons8-plus-50.png") no-repeat ; background-size: 100% 100%;
+}
+
+.admin-settings-button {
+  width: 30px; height: 30px; border-radius:5px; display: inline-block; border:1px solid #ddd; cursor: pointer;
+  background: #eee url("../assets/icons/admin-settings.png") no-repeat 50%; background-size: 70% 70%;
+}
+
+.admin-panel {
+  border-left: 1px solid #ddd;
+  position:fixed; z-index:1000; left:100%; bottom:0; overflow: auto; background: #f8f9fa; width:70%;
+  transition: left 0.15s ease-out;
+}
+.admin-panel.visible {
+  left: 30%;
+  transition: left 0.15s ease-in;
+}
+
+.admin-panel-content {
+  padding:20px;
+}
+
+.admin-panel-content h2 {
+  text-align: center; margin-bottom:30px;
+}
+
+.admin-panel-content h2 button {
+  margin-left:20px
+}
+
+.remove-doctor-cell,
+.remove-user-cell {
+  text-align: center; vertical-align: middle;
+}
+
+.remove-doctor-cell span,
+.remove-user-cell span {
+  display: inline-block; width: 20px; height:20px; background: url("../assets/icons/delete.png") no-repeat center;
+  cursor:pointer; background-size: 100% 100%;
+}
+
+.admin-doctors-list tr:nth-child(even),
+.admin-users-list tr:nth-child(even) {
+  background: #EFF3F7;
+}
+
+.admin-doctors-list tr:hover,
+.admin-users-list tr:hover {
+  background: #dee2e6;
+}
+
+.admin-doctors-list thead tr,
+.admin-users-list thead tr {
+  background: #dee2e6;
+}
+
+.admin-doctors-list .unactive {
+  pointer-events: none;
+}
+.admin-doctors-list .unactive td {
+  opacity: 0.5
+}
+
+#timetable caption {
+  caption-side: top; text-align: center; font-size:130%; margin-top: 30px; margin-bottom: 10px;
+
+}
+#timetable table {
+  min-width: 100%; border-collapse: collapse;
+}
+#timetable th, #timetable td {
+  border: 1px solid #ddd;
+}
+#timetable tbody tr:first-child th {
+  text-align: center; padding-top: 10px; padding-bottom: 10px;
+}
+#timetable tbody tr th:first-child {
+  text-align: center;
+}
+#timetable td {
+  padding:5px; min-width: 200px; white-space: pre-line;
+}
+#timetable td:hover {
+  outline: 2px solid lightseagreen;
+}
+#timetable td {
+  vertical-align: top;
+}
+#timetable td .set {
+  width: 20px; height: 20px; background: silver; float: right; cursor: pointer;
+  background: url("../assets/icons/cell-set.png") no-repeat; background-size: 100% 100%; visibility: hidden;
+}
+#timetable td:hover .set {
+  visibility: visible;
+}
+
+
+#bookModalComment {
+  display: block; width: 100%;
+}
+
+.NEW {background: #ffd64a}
+.ACCEPTED {background: rgba(0,255,124,0.2)}
+.CANCELED_BY_USER {background: #00bde8}
+.CANCELED_BY_ORGANIZATION {background: rgba(255, 2, 2, 0.5)}
+.COME {background: #08ff7d}
+.DID_NOT_COME {background: #ddd}
+
+.legend {
+  text-align: center; padding-top:15px; padding-bottom: 15px; position:fixed; top:54px; background: #fff; right:0; left:0;
+  border-bottom:1px solid #eee;
+}
+.legend div {
+  display: inline-block; vertical-align: middle;
+}
+.legend .item {
+  margin-left:20px; margin-right:20px;
+}
+.legend .colour {
+  width: 30px; height:30px; margin-right: 5px; border-radius: 20px;
+}
+
+.not-selected-parameters-alert {
+  position: fixed; top: 200px; right: 0; left: 0; text-align: center; font-size: 30px; color:#aaa;
+}
+.not-selected-parameters-alert div {margin-bottom:20px;}
+
+button.refresh {
+  float:right; margin-right:20px
+}
+
+.nav-scroll-to-month-select {
+  margin-left: 20px;
+}
+
+#timetable td.locked {
+  outline: dashed 2px red; position: relative; height: 80px;
+}
+#timetable td.locked .set {
+  display: none;
+}
+#timetable td.locked::before {
+  position: absolute; left:0; top:0; right: 0; bottom:0; padding: 5px;
+  content: "Редактирует\A" attr(data-editor); font-weight: bold;
+  background: rgba(255,255,255, 0.8) url('../assets/icons/ellips.gif') no-repeat right -10px; background-size: 50px 50px;
 }

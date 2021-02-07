@@ -7,22 +7,21 @@ const { check, validationResult } = require('express-validator');
 
 const User = require('../models/User');
 
-const router = Router();
-const saltRounds = 10;
+const T = require('../constants/text');
 
+const router = Router();
+const SALT_ROUNDS = 10;
 const PASSWORD_MIN = 6;
 
 /* /api/auth/signup */
 router.post(
   '/signup',
-
-  [/* middle wares */
-    check('email', 'Некорректный Email').isEmail(),
+  [
+    check('email', T.INVALID_EMAIL).isEmail(),
     check('password', `Минимальная длина пароля ${PASSWORD_MIN} символов`).isLength({ min: PASSWORD_MIN }),
-    check('firstName', 'Не указано имя').exists(),
-    check('lastName', 'Не указана фамилия').exists(),
+    check('firstName', T.NO_FIRST_NAME).exists(),
+    check('lastName', T.NO_LAST_NAME).exists(),
   ],
-
   async (req, res) => {
     try {
       const errors = validationResult(req);
@@ -31,8 +30,8 @@ router.post(
         return res.status(400).json({
           ok: false,
           status: 400,
-          message: 'Некорректные данные для регистрации',
-          errors: errors.array(),
+          message: T.INVALID_REGISTRATION_DATA,
+          details: errors.array(),
         });
       }
 
@@ -43,11 +42,11 @@ router.post(
         return res.status(409).json({
           ok: false,
           status: 409,
-          message: 'Такой пользователь уже зарегистрирован',
+          message: T.USER_ALREADY_EXISTS,
         });
       }
 
-      const hashedPassword = await bcrypt.hash(password, saltRounds);
+      const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
       const user = new User({
         email,
         firstName,
@@ -55,31 +54,37 @@ router.post(
         password: hashedPassword,
       });
 
-      await user.save();
+      const { _id } = await user.save();
+
+      const isRoot = config.get('roots').some(rootEmail => rootEmail === email);
+
+      const token = jwt.sign(
+        { id: _id, firstName, lastName, email, isRoot }, /* Что токенизировать */
+        config.get('jwtSecret'),
+        { expiresIn: '24h' },
+      );
 
       res.status(201).json({
         ok: true,
         status: 201,
-        message: `Пользователь (${email}) успешно зарегистрирован`,
+        jwt: token,
       });
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
       res.status(500).json({
         ok: false,
         status: 500,
-        massage: 'Что-то пошло не так...'
+        massage: T.SOMETHING_WRONG
       });
     }
   });
 
 router.post(
   '/signin',
-
-  [/* middle wares */
-    check('email', 'Некорректный Email')/*.normalizeEmail()*/.isEmail(),
-    check('password', 'Не указан пароль').exists(),
+  [
+    check('email', T.INVALID_EMAIL).isEmail(),
+    check('password', T.NO_PASSWORD).exists(),
   ],
-
   async (req, res) => {
     try {
       const errors = validationResult(req);
@@ -88,8 +93,8 @@ router.post(
         return res.status(400).json({
           ok: false,
           status: 400,
-          errors: errors.array(),
-          message: 'Некорректные данные для авторизации',
+          details: errors.array(),
+          message: T.INVALID_AUTHORIZATION_DATA,
         });
       }
 
@@ -100,7 +105,7 @@ router.post(
         return res.status(404).json({
           ok: false,
           status: 404,
-          message: 'Такого пользователя нет'
+          message: T.NO_SUCH_USER
         });
       }
 
@@ -110,28 +115,30 @@ router.post(
         return res.status(401).json({
           ok: false,
           status: 401,
-          message: 'Пароль не совпадает. Попробуйте еще раз',
+          message: `${T.INVALID_PASSWORD}. ${T.TRY_AGAIN}`,
         });
       }
 
+      const isRoot = config.get('roots').some(rootEmail => rootEmail === email);
+
+      const { id, firstName, lastName } = user;
       const token = jwt.sign(
-        { id : user.id }, /* Что токенизировать */
+        { id, firstName, lastName, email, isRoot }, /* Что токенизировать */
         config.get('jwtSecret'),
-        { expiresIn: '1h' },
+        { expiresIn: '24h' },
       );
 
       res.json({
-        token,
         ok: true,
         status: 200,
-        id: user.id,
+        jwt: token,
       });
     } catch (err) {
       //console.log(err);
       res.status(500).json({
         ok: false,
         status: 500,
-        massage: 'Что-то пошло не так...',
+        massage: T.SOMETHING_WRONG,
       });
     }
   });

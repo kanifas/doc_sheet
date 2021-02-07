@@ -1,16 +1,10 @@
-import React, {
-  useState,
-  useCallback,
-  useContext,
-  useEffect,
-} from 'react';
+import React, { useState, useCallback, useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useHttp } from "../hooks/http.hook";
-import { AuthContext } from "../context/AuthContext";
+import { useHttp } from "~/hooks/http.hook";
+import { AuthContext } from "~/context/AuthContext";
+import Loader from '~/components/ui/Loader';
 
-import Loader from '../components/ui/Loader';
-
-export const DetailPage = () => {
+export default function() {
   const { jwt } = useContext(AuthContext);
   const { request, loading } = useHttp();
   const [ link, setLink ] = useState(null);

@@ -2,5 +2,14 @@
   "port": 5000,
   "mongoUri": "mongodb+srv://kanifas:123456789!@cluster0.vywcn.mongodb.net/app?retryWrites=true&w=majority",
   "jwtSecret": "kf6swv35dvd0ds7d4d",
-  "baseUrl": "http://localhost:5000"
+  "baseUrl": "http://localhost:5000",
+  "roots": [
+    "admin@admin.ru",
+    "root@root.ru"
+  ],
+  "docdoc": {
+    "api": "https://bookingtest.docdoc.ru/api/2.0",
+    "authToken": "72ff6deb608be68132ae5919c158ed46b321cb3f0950e85775e3d75582f1ae91",
+    "clinicId": "gricenkoclinic_2"
+  }
 }

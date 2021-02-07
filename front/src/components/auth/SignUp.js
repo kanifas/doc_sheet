@@ -113,7 +113,7 @@ function SignUp({ setSignIn, changeHandler, submitHandler, isLoading }) {
               <Link
                 href="#"
                 variant="body2"
-                onClick={e => { e.preventDefault(); setSignIn(true)} }
+                onClick={e => { e.preventDefault(); setSignIn()} }
               >
                 Уже есть аккаунт? Войти
               </Link>

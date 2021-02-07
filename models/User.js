@@ -18,10 +18,10 @@ const schema = new Schema({
     type: String,
     required: true,
   },
-  links: [{
+  /*links: [{
     type: Types.ObjectId,
-    ref: 'Link', /* К какой модели привязка */
-  }],
+    ref: 'Link', /!* К какой модели привязка *!/
+  }],*/
 });
 
 module.exports = model('User', schema);

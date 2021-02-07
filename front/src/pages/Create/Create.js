@@ -1,9 +1,9 @@
 import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useHttp } from "../hooks/http.hook";
-import { AuthContext } from "../context/AuthContext";
+import { useHttp } from "~/hooks/http.hook";
+import { AuthContext } from "~/context/AuthContext";
 
-export const CreatePage = () => {
+export default function () {
   const history = useHistory();
   const auth = useContext(AuthContext);
   const { request } = useHttp();
