@@ -1,7 +1,7 @@
 {
-  "name": "mern",
+  "name": "doc_sheet",
   "version": "1.0.0",
-  "description": "MERN stack",
+  "description": "...",
   "main": "index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production node index.js",
